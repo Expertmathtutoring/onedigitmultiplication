@@ -1,187 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Multiplication Battle - Dark Mode</title>
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #fff;
-  }
-
-  .game-container {
-    background: rgba(30, 30, 30, 0.95);
-    border-radius: 25px;
-    width: 450px;
-    padding: 40px;
-    text-align: center;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
-    transition: transform 0.3s;
-  }
-
-  .game-container:hover {
-    transform: translateY(-5px);
-  }
-
-  h1 {
-    font-size: 34px;
-    margin-bottom: 25px;
-    color: #ffb74d;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-  }
-
-  #questionImg {
-    width: 180px;
-    height: 180px;
-    margin-bottom: 20px;
-    border-radius: 20px;
-    border: 3px solid #ffb74d;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  }
-
-  #questionText {
-    font-size: 28px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #fff;
-  }
-
-  input {
-    padding: 12px;
-    font-size: 20px;
-    width: 130px;
-    border-radius: 15px;
-    border: 2px solid #ffb74d;
-    text-align: center;
-    background: #1e1e1e;
-    color: #fff;
-    transition: transform 0.2s, border 0.2s;
-  }
-
-  input:focus {
-    outline: none;
-    transform: scale(1.05);
-    border-color: #ffd54f;
-  }
-
-  button {
-    padding: 12px 25px;
-    font-size: 18px;
-    margin: 12px 6px;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    color: #fff;
-    background: #ffb74d;
-    transition: all 0.2s ease;
-  }
-
-  button:hover {
-    background: #ffa726;
-    transform: translateY(-2px);
-  }
-
-  #feedback {
-    font-size: 22px;
-    margin-top: 18px;
-    font-weight: bold;
-    min-height: 30px;
-  }
-
-  .correct { color: #4caf50; animation: bounce 0.6s ease; }
-  .wrong { color: #f44336; animation: shake 0.4s ease; }
-
-  @keyframes bounce {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.5); }
-  }
-
-  @keyframes shake {
-    0%,100% { transform: translateX(0); }
-    25% { transform: translateX(-8px); }
-    75% { transform: translateX(8px); }
-  }
-
-  #score {
-    margin-top: 15px;
-    font-size: 20px;
-    color: #ffd54f;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Integer Battle with Pets 🐾</title>
+  <style>
+    :root { --card: rgba(255,255,255,0.1); --shadow: 0 8px 20px rgba(0,0,0,0.35); }
+    body {
+      margin: 0; display: flex; align-items: center; justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .game-container {
+      width: 440px; max-width: 94vw; padding: 24px; border-radius: 20px;
+      background: var(--card); backdrop-filter: blur(10px); box-shadow: var(--shadow);
+      text-align: center;
+    }
+    h1 { margin: 0 0 10px; font-size: 28px; text-shadow: 1px 1px 5px rgba(0,0,0,.5); }
+    .subtitle { font-size: 12px; opacity: .9; margin-bottom: 12px; }
+    #question {
+      background: rgba(255,255,255,.2); border-radius: 14px; padding: 18px; margin: 16px 0;
+      font-size: 28px; font-weight: 800;
+      box-shadow: 0 4px 10px rgba(0,0,0,.3);
+    }
+    .pets { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 16px; }
+    .pet {
+      width: 120px; height: 120px; border-radius: 14px; background: rgba(255,255,255,0.15);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; transition: transform .2s ease, background .3s;
+    }
+    .pet img { width: 60px; height: 60px; margin-bottom: 6px; }
+    .pet span { font-size: 18px; font-weight: bold; }
+    .pet:hover { transform: translateY(-5px); }
+    .correct { background: #2ecc71 !important; }
+    .wrong { background: #e74c3c !important; }
+    #feedback { margin-top: 14px; font-size: 20px; font-weight: bold; min-height: 28px; }
+    .score { margin-top: 12px; font-size: 18px; }
+  </style>
 </head>
 <body>
-<div class="game-container">
-  <h1>Multiplication Battle ⚡</h1>
-  <img id="questionImg" src="" alt="Question Image">
-  <div id="questionText"></div>
-  <input type="number" id="answer" placeholder="Answer">
-  <br>
-  <button id="submitBtn">Submit</button>
-  <button id="nextBtn">Next</button>
-  <div id="feedback"></div>
-  <div id="score">Score: 0</div>
-</div>
+  <div class="game-container">
+    <h1>🐾 Pet Math Battle</h1>
+    <div class="subtitle">Choose the correct pet with the right answer!</div>
+
+    <div id="question">Press Start to Begin!</div>
+    <div class="pets" id="pets"></div>
+
+    <div id="feedback"></div>
+    <div class="score">Score: <span id="score">0</span> out of <span id="total">0</span></div>
+
+    <button id="nextBtn" style="margin-top:14px;padding:10px 16px;border:none;border-radius:12px;
+      background:#1dd1a1;color:#0c2a1f;font-weight:700;cursor:pointer;">
+      Start / Next
+    </button>
+  </div>
 
 <script>
-  const images = [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/1_apple.svg/120px-1_apple.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/2_apples.svg/120px-2_apples.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/3_apples.svg/120px-3_apples.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/4_apples.svg/120px-4_apples.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/5_apples.svg/120px-5_apples.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/6_apples.svg/120px-6_apples.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/7_apples.svg/120px-7_apples.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/8_apples.svg/120px-8_apples.svg.png",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/9_apples.svg/120px-9_apples.svg.png"
+  let score = 0, total = 0;
+  let correctAnswer = null;
+
+  const pets = [
+    "https://cdn-icons-png.flaticon.com/512/616/616408.png", // dog
+    "https://cdn-icons-png.flaticon.com/512/616/616430.png", // cat
+    "https://cdn-icons-png.flaticon.com/512/1998/1998627.png", // rabbit
+    "https://cdn-icons-png.flaticon.com/512/616/6164089.png"  // panda
   ];
 
-  let score = 0;
-  let num1, num2, correctAnswer;
-
-  const feedbackMessages = [
-    "🎉 Amazing!", "🌟 Brilliant!", "✅ Correct!", "🔥 Fantastic!", "💡 Smart move!"
+  const messages = [
+    "🌟 Awesome! Keep it up!",
+    "🔥 Brilliant work!",
+    "🎉 You nailed it!",
+    "💪 Super strong move!",
+    "🚀 Great job, math wizard!",
+    "✨ Sharp thinking!",
+    "🏆 Champion move!"
   ];
+
+  function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
   function newQuestion() {
     document.getElementById("feedback").textContent = "";
-    num1 = Math.floor(Math.random() * 9) + 1;
-    num2 = Math.floor(Math.random() * 9) + 1;
-    correctAnswer = num1 * num2;
+    const a = rnd(1, 12);
+    const b = rnd(1, 12);
+    const ops = ['+', '-', '×'];
+    const op = ops[rnd(0, ops.length - 1)];
+    if (op === '+') correctAnswer = a + b;
+    if (op === '-') correctAnswer = a - b;
+    if (op === '×') correctAnswer = a * b;
+    document.getElementById("question").textContent = `Calculate: ${a} ${op} ${b}`;
 
-    document.getElementById("questionText").textContent = `${num1} × ${num2} = ?`;
-    document.getElementById("questionImg").src = images[num1 - 1];
-    document.getElementById("answer").value = "";
-  }
-
-  function checkAnswer() {
-    const userAnswer = parseInt(document.getElementById("answer").value);
-    if(userAnswer === correctAnswer) {
-      score++;
-      document.getElementById("feedback").textContent = feedbackMessages[Math.floor(Math.random()*feedbackMessages.length)];
-      document.getElementById("feedback").className = "correct";
-    } else {
-      document.getElementById("feedback").textContent = `❌ Oops! Correct answer: ${correctAnswer}`;
-      document.getElementById("feedback").className = "wrong";
+    // generate answers
+    let answers = [correctAnswer];
+    while (answers.length < 4) {
+      let wrong = rnd(-20, 100);
+      if (!answers.includes(wrong)) answers.push(wrong);
     }
-    document.getElementById("score").textContent = `Score: ${score}`;
-    setTimeout(newQuestion, 1400);
+    answers.sort(() => Math.random() - 0.5);
+
+    // display pets
+    const petsDiv = document.getElementById("pets");
+    petsDiv.innerHTML = "";
+    answers.forEach((ans, idx) => {
+      const div = document.createElement("div");
+      div.className = "pet";
+      div.innerHTML = `<img src="${pets[idx]}" alt="pet"><span>${ans}</span>`;
+      div.onclick = () => checkAnswer(div, ans);
+      petsDiv.appendChild(div);
+    });
   }
 
-  document.getElementById("submitBtn").addEventListener("click", checkAnswer);
-  document.getElementById("nextBtn").addEventListener("click", newQuestion);
-  document.getElementById("answer").addEventListener("keydown", e => {
-    if(e.key === "Enter") checkAnswer();
-  });
+  function checkAnswer(div, ans) {
+    total++;
+    if (ans === correctAnswer) {
+      score++;
+      div.classList.add("correct");
+      document.getElementById("feedback").textContent = messages[rnd(0, messages.length-1)];
+    } else {
+      div.classList.add("wrong");
+      document.getElementById("feedback").textContent = `❌ The correct answer was ${correctAnswer}`;
+      [...document.getElementsByClassName("pet")].forEach(p => {
+        if (parseInt(p.querySelector("span").textContent) === correctAnswer) {
+          p.classList.add("correct");
+        }
+      });
+    }
+    document.getElementById("score").textContent = score;
+    document.getElementById("total").textContent = total;
+  }
 
-  newQuestion();
+  document.getElementById("nextBtn").addEventListener("click", newQuestion);
 </script>
 </body>
 </html>
