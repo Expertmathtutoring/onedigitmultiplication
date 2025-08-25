@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Multiplication Battle</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+  }
+
+  .game-container {
+    background: rgba(255,255,255,0.9);
+    padding: 30px;
+    border-radius: 20px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+
+  h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #ff5722;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  }
+
+  #questionImg {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+  }
+
+  #questionText {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  input {
+    padding: 10px;
+    font-size: 18px;
+    width: 100px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px 5px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+    background: #4caf50;
+    transition: all 0.2s ease;
+  }
+
+  button:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+  }
+
+  #feedback {
+    font-size: 18px;
+    margin-top: 12px;
+    font-weight: bold;
+  }
+
+  .correct { color: green; animation: pop 0.5s ease; }
+  .wrong { color: red; animation: shake 0.3s ease; }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-5px);}
+    75%{transform:translateX(5px);}
+  }
+
+  #score {
+    margin-top: 12px;
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+<div class="game-container">
+  <h1>Multiplication Battle ⚔️</h1>
+  <img id="questionImg" src="" alt="Question Image">
+  <div id="questionText"></div>
+  <input type="number" id="answer" placeholder="Answer">
+  <br>
+  <button id="submitBtn">Submit</button>
+  <button id="nextBtn">Next</button>
+  <div id="feedback"></div>
+  <div id="score">Score: 0</div>
+</div>
+
+<script>
+  const images = [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/1_apple.svg/120px-1_apple.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/2_apples.svg/120px-2_apples.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/3_apples.svg/120px-3_apples.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/4_apples.svg/120px-4_apples.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/5_apples.svg/120px-5_apples.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/6_apples.svg/120px-6_apples.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/7_apples.svg/120px-7_apples.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/8_apples.svg/120px-8_apples.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/9_apples.svg/120px-9_apples.svg.png"
+  ];
+
+  let score = 0;
+  let num1, num2, correctAnswer;
+
+  function newQuestion() {
+    document.getElementById("feedback").textContent = "";
+    num1 = Math.floor(Math.random() * 9) + 1; // 1-9
+    num2 = Math.floor(Math.random() * 9) + 1; // 1-9
+    correctAnswer = num1 * num2;
+
+    document.getElementById("questionText").textContent = `${num1} × ${num2} = ?`;
+    // Show image of first number apples
+    document.getElementById("questionImg").src = images[num1 - 1];
+    document.getElementById("answer").value = "";
+  }
+
+  function checkAnswer() {
+    const userAnswer = parseInt(document.getElementById("answer").value);
+    if (userAnswer === correctAnswer) {
+      score++;
+      document.getElementById("feedback").textContent = ["🎉 Excellent!", "🌟 You got it!", "✅ Correct!"][Math.floor(Math.random()*3)];
+      document.getElementById("feedback").className = "correct";
+    } else {
+      document.getElementById("feedback").textContent = `❌ Oops! Correct answer: ${correctAnswer}`;
+      document.getElementById("feedback").className = "wrong";
+    }
+    document.getElementById("score").textContent = `Score: ${score}`;
+    setTimeout(newQuestion, 1200);
+  }
+
+  document.getElementById("submitBtn").addEventListener("click", checkAnswer);
+  document.getElementById("nextBtn").addEventListener("click", newQuestion);
+  document.getElementById("answer").addEventListener("keydown", e => {
+    if (e.key === "Enter") checkAnswer();
+  });
+
+  newQuestion();
+</script>
+</body>
+</html>
