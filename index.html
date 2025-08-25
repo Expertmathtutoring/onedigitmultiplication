@@ -2,33 +2,37 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Multiplication Battle</title>
+<title>Multiplication Battle - Fun Style</title>
 <style>
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Comic Sans MS', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #f6d365, #fda085);
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    color: #333;
   }
 
   .game-container {
-    background: rgba(255,255,255,0.95);
-    padding: 40px;
+    background: #ffffffcc;
     border-radius: 25px;
     width: 450px;
+    padding: 40px;
     text-align: center;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+  }
+
+  .game-container:hover {
+    transform: translateY(-5px);
   }
 
   h1 {
-    font-size: 32px;
+    font-size: 34px;
     margin-bottom: 25px;
-    color: #ff5722;
+    color: #ff6f61;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
   }
 
@@ -36,40 +40,48 @@
     width: 180px;
     height: 180px;
     margin-bottom: 20px;
-    border-radius: 15px;
-    border: 3px solid #333;
+    border-radius: 20px;
+    border: 3px solid #ff6f61;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
 
   #questionText {
-    font-size: 26px; /* bigger question text */
-    margin-bottom: 15px;
+    font-size: 28px;
+    margin-bottom: 20px;
     font-weight: bold;
+    color: #333;
   }
 
   input {
     padding: 12px;
     font-size: 20px;
-    width: 120px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
+    width: 130px;
+    border-radius: 15px;
+    border: 2px solid #ff6f61;
     text-align: center;
+    transition: transform 0.2s;
+  }
+
+  input:focus {
+    outline: none;
+    transform: scale(1.05);
   }
 
   button {
-    padding: 12px 22px;
+    padding: 12px 25px;
     font-size: 18px;
     margin: 12px 6px;
-    border-radius: 15px;
+    border-radius: 20px;
     border: none;
     cursor: pointer;
     font-weight: bold;
     color: #fff;
-    background: #4caf50;
+    background: #ff6f61;
     transition: all 0.2s ease;
   }
 
   button:hover {
-    background: #45a049;
+    background: #ff3b2e;
     transform: translateY(-2px);
   }
 
@@ -77,33 +89,33 @@
     font-size: 22px;
     margin-top: 18px;
     font-weight: bold;
-    min-height: 28px;
+    min-height: 30px;
   }
 
-  .correct { color: #4CAF50; animation: pop 0.5s ease; }
-  .wrong { color: #ff5252; animation: shake 0.3s ease; }
+  .correct { color: #4caf50; animation: bounce 0.6s ease; }
+  .wrong { color: #f44336; animation: shake 0.4s ease; }
 
-  @keyframes pop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.4); }
-    100% { transform: scale(1); }
+  @keyframes bounce {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.5); }
   }
 
   @keyframes shake {
-    0%,100%{transform:translateX(0);}
-    25%{transform:translateX(-5px);}
-    75%{transform:translateX(5px);}
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
   }
 
   #score {
     margin-top: 15px;
     font-size: 20px;
+    color: #333;
   }
 </style>
 </head>
 <body>
 <div class="game-container">
-  <h1>Multiplication Battle ⚔️</h1>
+  <h1>Multiplication Battle 🎯</h1>
   <img id="questionImg" src="" alt="Question Image">
   <div id="questionText"></div>
   <input type="number" id="answer" placeholder="Answer">
@@ -131,11 +143,7 @@
   let num1, num2, correctAnswer;
 
   const feedbackMessages = [
-    "🎉 Excellent!", 
-    "🌟 You got it!", 
-    "✅ Correct!", 
-    "🔥 Fantastic!", 
-    "💡 Smart thinking!"
+    "🎉 Amazing!", "🌟 Brilliant!", "✅ Correct!", "🔥 Fantastic!", "💡 Smart move!"
   ];
 
   function newQuestion() {
@@ -165,7 +173,9 @@
 
   document.getElementById("submitBtn").addEventListener("click", checkAnswer);
   document.getElementById("nextBtn").addEventListener("click", newQuestion);
-  document.getElementById("answer").addEventListener("keydown", e => { if(e.key==="Enter") checkAnswer(); });
+  document.getElementById("answer").addEventListener("keydown", e => {
+    if(e.key === "Enter") checkAnswer();
+  });
 
   newQuestion();
 </script>
